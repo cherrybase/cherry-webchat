@@ -1,16 +1,23 @@
 <template>
   <div class="sc-suggestions-row" :style="{background: colors.messageList.bg}">
-    <slot name="suggestion-button" :suggestions="suggestions" :colors="colors">
-      <button v-for="(suggestion, idx) in suggestions" :key="idx" 
-            class="sc-suggestions-element"
-            :style="{
-              borderColor : colors.sentMessage.bg,
-              color: colors.sentMessage.bg
-            }"
-            @click="$emit('sendSuggestion', suggestion)" >
-            {{ suggestion }};
-          </button>
-    </slot>
+      <span v-for="(suggestion, idx) in suggestions" :key="idx" >
+        <slot name="suggestion-button" :suggestion="suggestion" 
+            :colors="colors" :sendSuggestion="sendSuggestion"
+            :button="{
+              class : 'sc-suggestions-element',
+              style : {
+                borderColor : colors.sentMessage.bg,
+                color: colors.sentMessage.bg
+              }
+            }">
+          <button
+              :class="button.class"
+              :style="button.style"
+              @click="sendSuggestion(suggestion)" >
+              {{ suggestion }}
+            </button>
+          </slot>
+      </span>  
   </div>
 </template>
 
@@ -27,7 +34,13 @@ export default {
     }
   },
   data() {
-    return {}
+    return {
+    }
+  },
+  methods : {
+    sendSuggestion(){
+      this.$emit('sendSuggestion', suggestion)
+    }
   }
 }
 </script>

@@ -55,7 +55,11 @@
       @onType="$emit('onType')"
       @edit="$emit('edit', $event)">
       <template v-slot:suggestion-button="scopedProps">
-        <slot name="suggestion-button" :suggestions="scopedProps.suggestions" :colors="scopedProps.colors">
+        <slot name="suggestion-button" 
+          :suggestion="scopedProps.suggestion" 
+          :colors="scopedProps.colors"
+          :button="scopedProps.button"
+          :sendSuggestion="scopedProps.sendSuggestion">
         </slot>
       </template>
     </UserInput>
