@@ -1,6 +1,11 @@
 <template>
   <div>
-    <Suggestions :suggestions="suggestions" :colors="colors" @sendSuggestion="_submitSuggestion" />
+    <Suggestions :suggestions="suggestions" :colors="colors" @sendSuggestion="_submitSuggestion">
+      <template v-slot:suggestion-button="scopedProps">
+        <slot name="suggestion-button" :suggestions="scopedProps.suggestions" :colors="scopedProps.colors">
+        </slot>
+      </template>
+    </Suggestions>
     <div
       v-if="file"
       class="file-container"

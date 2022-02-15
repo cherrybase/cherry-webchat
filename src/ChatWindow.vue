@@ -53,8 +53,13 @@
       :placeholder="placeholder"
       :colors="colors"
       @onType="$emit('onType')"
-      @edit="$emit('edit', $event)"
-    />
+      @edit="$emit('edit', $event)">
+      <template v-slot:suggestion-button="scopedProps">
+        <slot name="suggestion-button" :suggestions="scopedProps.suggestions" :colors="scopedProps.colors">
+        </slot>
+      </template>
+    </UserInput>
+
   </div>
 </template>
 
