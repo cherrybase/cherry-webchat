@@ -1,9 +1,9 @@
 {
-  "name": "vue-beautiful-chat",
+  "name": "@cherrybase/cherry-webchat",
   "version": "2.5.0",
   "description": "A simple and beautiful Vue chat component backend agnostic.",
   "main": "./dist/vue-beautiful-chat.umd.min.js",
-  "repository": "https://github.com/mattmezza/vue-beautiful-chat.git",
+  "repository": "https://github.com/cherrybase/cherry-webchat.git",
   "author": "Matteo Merola <mattmezza@gmail.com>",
   "license": "MIT",
   "scripts": {
