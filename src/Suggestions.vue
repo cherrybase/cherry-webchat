@@ -38,7 +38,7 @@ export default {
     }
   },
   methods : {
-    sendSuggestion(){
+    sendSuggestion(suggestion){
       this.$emit('sendSuggestion', suggestion)
     }
   }
