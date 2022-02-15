@@ -59,5 +59,6 @@ export default {
   font-size: 14px;
   background: inherit;
   cursor: pointer;
+  appearance: auto;
 }
 </style>
