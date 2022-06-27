@@ -21,6 +21,7 @@
       :is-open="isOpen"
       :show-emoji="showEmoji"
       :show-file="showFile"
+      :showMic="showMic"
       :show-header="showHeader"
       :placeholder="placeholder"
       :show-typing-indicator="showTypingIndicator"
@@ -120,6 +121,10 @@ export default {
       required: true
     },
     showFile: {
+      type: Boolean,
+      default: false
+    },
+    showMic:{
       type: Boolean,
       default: false
     },

@@ -52,6 +52,10 @@
         <div v-if="showEmoji && !isEditing" class="sc-user-input--button">
           <EmojiIcon :on-emoji-picked="_handleEmojiPicked" :color="colors.userInput.text" />
         </div>
+        <slot name="input-buttons"></slot>
+        <div v-if="showMic" class="sc-user-input--button">
+          <MicIcon :on-change="_handleAudioSubmit" :color="colors.userInput.text" />
+        </div>
         <div v-if="showFile && !isEditing" class="sc-user-input--button">
           <FileIcons :on-change="_handleFileSubmit" :color="colors.userInput.text" />
         </div>
@@ -98,6 +102,7 @@ import store from './store/'
 import IconCross from './components/icons/IconCross.vue'
 import IconOk from './components/icons/IconOk.vue'
 import IconSend from './components/icons/IconSend.vue'
+import MicIcon from './icons/MicIcon.vue'
 
 export default {
   components: {
@@ -107,7 +112,8 @@ export default {
     Suggestions,
     IconCross,
     IconOk,
-    IconSend
+    IconSend,
+    MicIcon
   },
   props: {
     icons: {
@@ -126,6 +132,10 @@ export default {
       }
     },
     showEmoji: {
+      type: Boolean,
+      default: () => false
+    },
+    showMic: {
       type: Boolean,
       default: () => false
     },
@@ -229,6 +239,7 @@ export default {
     },
     _submitText(event) {
       const text = this.$refs.userInput.textContent
+      console.log("text",{text});
       const file = this.file
       if (file) {
         this._submitTextWhenFile(event, text, file)
@@ -285,7 +296,22 @@ export default {
       )
     },
     _handleFileSubmit(file) {
-      this.file = file
+      this._checkSubmitSuccess(
+          this.onSubmit({
+            author: 'me',
+            type: 'file',
+            data: {file}
+          })
+        )
+    },
+    _handleAudioSubmit(file) {
+      this._checkSubmitSuccess(
+          this.onSubmit({
+            author: 'me',
+            type: 'file',
+            data: {file}
+          })
+        )
     },
     _editFinish() {
       store.setState('editMessage', null)

@@ -50,6 +50,7 @@
       :on-submit="onUserInputSubmit"
       :suggestions="getSuggestions()"
       :show-file="showFile"
+      :showMic="showMic"
       :placeholder="placeholder"
       :colors="colors"
       @onType="$emit('onType')"
@@ -86,6 +87,10 @@ export default {
       default: false
     },
     showFile: {
+      type: Boolean,
+      default: false
+    },
+    showMic:{
       type: Boolean,
       default: false
     },

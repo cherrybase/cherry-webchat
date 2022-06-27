@@ -21,7 +21,7 @@
       </slot>
 
       <TextMessage
-        v-if="message.type === 'text'"
+        v-if="['text','file'].includes(message.type)"
         :message="message"
         :message-colors="messageColors"
         :message-styling="messageStyling"
@@ -171,7 +171,7 @@ export default {
 
 @media (max-width: 450px) {
   .sc-message {
-    width: 80%;
+    width: 100%;
   }
 }
 

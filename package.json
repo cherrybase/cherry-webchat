@@ -28,7 +28,9 @@
     "kind-of": "6.0.3",
     "minimist": "1.2.3",
     "msgdown": "^1.0.2",
-    "v-tooltip": "^2.0.1"
+    "v-tooltip": "^2.0.1",
+    "vue-audio-visual": "^2.4.0",
+    "get-user-media-promise": "^1.1.4"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.2.3",
@@ -70,4 +72,3 @@
   },
   "homepage": "https://github.com/cherrybase/cherry-webchat#readme"
 }
-

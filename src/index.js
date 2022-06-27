@@ -1,5 +1,6 @@
 import Launcher from './Launcher.vue'
 import VTooltip from 'v-tooltip'
+import AudioVisual from 'vue-audio-visual'
 
 const defaultComponentName = 'BeautifulChat'
 
@@ -29,6 +30,8 @@ const Plugin = {
      */
     Vue.component(this.componentName, Launcher)
     Vue.use(VTooltip)
+    Vue.use(AudioVisual)
+
   }
 }
 
