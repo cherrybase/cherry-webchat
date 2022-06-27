@@ -21,7 +21,7 @@
       </slot>
 
       <TextMessage
-        v-if="['text','file'].includes(message.type)"
+        v-if="['text','file'].indexOf(message.type) != -1"
         :message="message"
         :message-colors="messageColors"
         :message-styling="messageStyling"
