@@ -21,7 +21,7 @@
       :is-open="isOpen"
       :show-emoji="showEmoji"
       :show-file="showFile"
-      :showMic="showMic"
+      :show-mic="showMic"
       :show-header="showHeader"
       :placeholder="placeholder"
       :show-typing-indicator="showTypingIndicator"
