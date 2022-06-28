@@ -50,7 +50,7 @@
       :on-submit="onUserInputSubmit"
       :suggestions="getSuggestions()"
       :show-file="showFile"
-      :showMic="showMic"
+      :show-mic="showMic"
       :placeholder="placeholder"
       :colors="colors"
       @onType="$emit('onType')"
