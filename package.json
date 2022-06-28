@@ -1,6 +1,6 @@
 {
   "name": "@cherrybase/cherry-webchat",
-  "version": "2.5.8",
+  "version": "2.5.9",
   "description": "A simple and beautiful Vue chat component backend agnostic.",
   "main": "./src/index.js",
   "repository": {
