@@ -31,15 +31,51 @@
 </template>
 
 <script>
-import {mapState} from '../store/'
+import {mapState} from '../store'
 import IconBase from './../components/IconBase.vue'
 import IconEdit from './../components/icons/IconEdit.vue'
 import IconCross from './../components/icons/IconCross.vue'
 import escapeGoat from 'escape-goat'
 import Autolinker from 'autolinker'
 import store from '../store/'
+import debounce from "debounce";
 
 const fmt = require('msgdown')
+
+const playBackgroundVoice = debounce((message, source) => {
+  let attachment = message.data?.attachments?.find(a => a.mediaSubType === "BG_VOICE")
+  if(!attachment) return;
+
+  let id = 'bg_voice_';
+  let voicePlayIcon = "fa-volume-off" // "fa-play"
+  let voiceStopIcon = "fa-volume-up" // "fa-stop"
+  let bg_voice = document.getElementById(id);
+  let bg_voice_control = document.getElementById("bg_voice_control");
+
+  if(bg_voice){
+    // console.log("playBackgroundVoice coming from "+source+" "+message.id, bg_voice);
+    // bg_voice.src = 'https://www.bensound.com/bensound-music/bensound-moose.mp3';
+    bg_voice.src = attachment.mediaURL;
+  }else{
+    // console.log("playBackgroundVoice coming from "+source+" "+message.id, bg_voice);
+    bg_voice = document.createElement('audio');
+    bg_voice.id = id;
+    // bg_voice.src = 'https://www.bensound.com/bensound-music/bensound-moose.mp3';
+    bg_voice.src = attachment.mediaURL;
+    document.body.appendChild(bg_voice);
+  }
+
+  bg_voice.volume = 0.2;
+  bg_voice.play();
+
+  bg_voice_control.classList.remove(voicePlayIcon)
+  bg_voice_control.classList.add(voiceStopIcon)
+
+  bg_voice.onended = function () {
+    bg_voice_control.classList.remove(voiceStopIcon)
+    bg_voice_control.classList.add(voicePlayIcon)
+  }
+}, 500)
 
 export default {
   components: {
@@ -63,12 +99,15 @@ export default {
   },
   computed: {
     messageText() {
-      const escaped = escapeGoat.escape(this.message.data.text)
-
-      return Autolinker.link(this.messageStyling ? fmt(escaped) : escaped, {
-        className: 'chatLink',
-        truncate: {length: 50, location: 'smart'}
-      })
+        if(this.message.data.text){
+            const escaped = escapeGoat.escape(this.message.data.text)
+            //console.log("escaped",escaped,this.message.data.text);
+            return Autolinker.link(this.messageStyling ? fmt(escaped, {italic: {delmiter: '///', tag: 'em'}}) : escaped, {
+                className: 'chatLink',
+                truncate: {length: 50, location: 'smart'}
+            })
+        }
+        return null;
     },
     me() {
       return this.message.author === 'me'
@@ -82,22 +121,53 @@ export default {
     edit() {
       store.setState('editMessage', this.message)
     }
-  }
+  },
+  mounted(){
+    if(this.message.id && this.message.isLast && this.message.author !== "me"){
+      playBackgroundVoice(this.message, "mounted")
+    }
+  },
+  watch: {
+    'message': {
+      handler (val, oldVal) {
+        if(val.id && val.isLast && val.author !== "me"){
+          playBackgroundVoice(val, "watch")
+        }else{
+          let bg_voice = document.getElementById('bg_voice_')
+          if(bg_voice)
+            bg_voice.src = ""
+        }
+      }
+    }
+  },
 }
 </script>
 
 <style scoped lang="scss">
 .sc-message--text {
-  padding: 5px 20px;
-  border-radius: 6px;
+  padding: 10px;
+  border-radius: 10px;
   font-weight: 300;
   font-size: 14px;
-  line-height: 1.4;
+  line-height: 16px;
   position: relative;
   -webkit-font-smoothing: subpixel-antialiased;
   .sc-message--text-content {
     white-space: pre-wrap;
+    margin: 0;
+    padding: 0;
   }
+  
+  ul,li{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  ul{
+    padding:10px;
+  }
+
   &:hover .sc-message--toolbox {
     left: -20px;
     opacity: 1;
@@ -123,9 +193,6 @@ export default {
         outline: none;
       }
     }
-    & /deep/ svg {
-      margin-left: 5px;
-    }
   }
   code {
     font-family: 'Courier New', Courier, monospace !important;
@@ -138,7 +205,11 @@ export default {
   max-width: calc(100% - 120px);
   word-wrap: break-word;
 }
-
+@media screen and (max-width: 479px){
+    .sc-message--content.sent .sc-message--text {
+        max-width: 100%;
+    }
+}
 .sc-message--content.received .sc-message--text {
   color: #263238;
   background-color: #f4f7f9;
@@ -147,5 +218,13 @@ export default {
 
 a.chatLink {
   color: inherit !important;
+}
+</style>
+<style>
+a.chatLink {
+  color: inherit !important;
+}
+.sc-message--text .sc-message--toolbox /deep/ svg {
+      margin-left: 5px;
 }
 </style>

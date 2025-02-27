@@ -2,7 +2,7 @@ import Launcher from './Launcher.vue'
 import VTooltip from 'v-tooltip'
 import AudioVisual from 'vue-audio-visual'
 
-const defaultComponentName = 'BeautifulChat'
+const defaultComponentName = 'CherryWebChat'
 
 const Plugin = {
   install(Vue, options = {}) {

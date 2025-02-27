@@ -70,7 +70,7 @@
 </template>
 
 <script>
-import store from './store/'
+import store from './store'
 import ChatWindow from './ChatWindow.vue'
 
 import CloseIcon from './assets/close-icon.png'
